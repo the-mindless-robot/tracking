@@ -17,6 +17,13 @@ for(const link of trackingLinks) {
 function sendEvent(params = false, action = false) {
     const eAction = action !== false ? action : 'click';
     console.log('sending event', params);
+
+    if(typeof gtag === 'function') {
+        gtag('event', eAction, params);
+    } else {
+        console.log('no analytics tag found');
+    }
+
 }
 
 // TODO: if label is empty replace with link text
