@@ -1,4 +1,4 @@
-// generic tracking function
+// generic tracking function for google analytics
 // based on:
 // https://developers.google.com/analytics/devguides/collection/gtagjs/events
 
@@ -35,6 +35,8 @@ function getParams(e) {
         let key = data;
         const value = dataset[data];
 
+        // prameter reference
+        // https://developers.google.com/gtagjs/reference/parameter
         if(data == 'label')
             key = 'event_label';
         if(data == 'category')
