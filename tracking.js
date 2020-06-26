@@ -21,7 +21,7 @@ for(const link of trackingLinks) {
 
 function sendEvent(params = false) {
     const action = params !== false && params.hasOwnProperty('action') ? params.action : 'click';
-    console.log('sending event', params);
+    console.log('sending event', action, params);
 
     if(typeof gtag === 'function') {
         gtag('event', action, params);
