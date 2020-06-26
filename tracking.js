@@ -8,18 +8,23 @@ for(const link of trackingLinks) {
     console.dir(link);
     link.addEventListener('click', (e)=>{
         const trackingParams = getParams(e);
+        if(typeof gtagDefaults === 'object') {
+            if(!trackingParams.hasOwnProperty('event_category') && gtagDefaults.hasOwnProperty('category')) {
+                trackingParams.event_category = gtagDefaults.category;
+            }
+        }
         sendEvent(trackingParams);
     });
 
 
 }
 
-function sendEvent(params = false, action = false) {
-    const eAction = action !== false ? action : 'click';
+function sendEvent(params = false) {
+    const action = params !== false && params.hasOwnProperty('action') ? params.action : 'click';
     console.log('sending event', params);
 
     if(typeof gtag === 'function') {
-        gtag('event', eAction, params);
+        gtag('event', action, params);
     } else {
         console.log('no analytics tag found');
     }
