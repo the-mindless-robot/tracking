@@ -5,7 +5,7 @@
 const trackingLinks = document.getElementsByClassName('track');
 
 for(const link of trackingLinks) {
-    console.dir(link);
+//     console.dir(link);
     link.addEventListener('click', (e)=>{
         const trackingParams = getParams(e);
         if(typeof gtagDefaults === 'object') {
@@ -20,14 +20,21 @@ for(const link of trackingLinks) {
 }
 
 function sendEvent(params = false) {
-    const action = params !== false && params.hasOwnProperty('action') ? params.action : 'click';
-    console.log('sending event', action, params);
+	const action = params?.action ?? 'click';
+    console.log('sending event', params, action);
 
     if(typeof gtag === 'function') {
         gtag('event', action, params);
+    } else if (dataLayer) {
+		const custom_event = { action };
+		for(const param of Object.keys(params)) {
+			custom_event[param] = params[param];
+		}
+        dataLayer.push(custom_event);
+// 		console.debug('dataLayer', dataLayer);
     } else {
-        console.log('no analytics tag found');
-    }
+		console.warn('no analytics tag found');
+	}
 
 }
 
